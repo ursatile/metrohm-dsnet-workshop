@@ -45,21 +45,15 @@ namespace Autobarn.Website.Controllers.api {
         public IActionResult Get(string id) {
             var vehicle = db.FindVehicle(id);
             if (vehicle == default) return NotFound();
-            return Ok(vehicle.ToResource());
-        }
-
-        // POST api/vehicles
-        [HttpPost]
-        public IActionResult Post([FromBody] VehicleDto dto) {
-            var vehicleModel = db.FindModel(dto.ModelCode);
-            var vehicle = new Vehicle {
-                Registration = dto.Registration,
-                Color = dto.Color,
-                Year = dto.Year,
-                VehicleModel = vehicleModel
+            var resource = vehicle.ToResource();
+            resource._actions = new {
+                delete = new {
+                    href = $"/api/vehicles/{id}",
+                    method = "DELETE",
+                    name = $"Delete {id} from the database"
+                }
             };
-            db.CreateVehicle(vehicle);
-            return Ok(dto);
+            return Ok(resource);
         }
 
         // PUT api/vehicles/ABC123

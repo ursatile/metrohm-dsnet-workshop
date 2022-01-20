@@ -43,7 +43,7 @@ namespace Autobarn.Website.Controllers.api {
                     href = $"/api/vehicles/{vehicle.Registration}"
                 },
                 model = new {
-                    href = $"https://api.all-the-cars.com/api/models/{vehicle.ModelCode}"
+                    href = $"/api/models/{vehicle.ModelCode}"
                 }
             };
             return resource;
