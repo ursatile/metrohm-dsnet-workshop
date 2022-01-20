@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.IO;
 using System.Net;
@@ -10,9 +12,19 @@ using System.Net;
 namespace Autobarn.Website {
     public class Program {
         public static void Main(string[] args) {
+            JsonConvert.DefaultSettings = JsonSettings;
             Console.WriteLine("Starting Autobarn.Website...");
             CreateHostBuilder(args).Build().Run();
         }
+
+        private static JsonSerializerSettings JsonSettings() =>
+            new JsonSerializerSettings {
+                ContractResolver = new DefaultContractResolver {
+                    NamingStrategy = new CamelCaseNamingStrategy {
+                        ProcessDictionaryKeys = false
+                    }
+                }
+            };
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)

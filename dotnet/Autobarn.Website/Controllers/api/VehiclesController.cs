@@ -25,7 +25,8 @@ namespace Autobarn.Website.Controllers.api {
         [HttpGet]
         [Produces("application/hal+json")]
         public IActionResult Get(int index = 0, int count = PAGE_SIZE) {
-            var items = db.ListVehicles().Skip(index).Take(count);
+            var items = db.ListVehicles().Skip(index).Take(count)
+                .Select(v => v.ToResource());
             var total = db.CountVehicles();
             var _links = Hal.PaginateAsDynamic("/api/vehicles", index, count, total);
             var result = new {
@@ -40,10 +41,11 @@ namespace Autobarn.Website.Controllers.api {
 
         // GET api/vehicles/ABC123
         [HttpGet("{id}")]
+        [Produces("application/hal+json")]
         public IActionResult Get(string id) {
             var vehicle = db.FindVehicle(id);
             if (vehicle == default) return NotFound();
-            return Ok(vehicle);
+            return Ok(vehicle.ToResource());
         }
 
         // POST api/vehicles
