@@ -27,7 +27,7 @@ namespace Autobarn.Website.Controllers.api {
         public IActionResult Get(int index = 0, int count = PAGE_SIZE) {
             var items = db.ListVehicles().Skip(index).Take(count);
             var total = db.CountVehicles();
-            var _links = Hal.Paginate("/api/vehicles", index, count, total);
+            var _links = Hal.PaginateAsDynamic("/api/vehicles", index, count, total);
             var result = new {
                 _links,
                 count,
