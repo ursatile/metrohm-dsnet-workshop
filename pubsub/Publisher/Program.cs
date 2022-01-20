@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using EasyNetQ;
 using Messages;
 
@@ -9,14 +10,15 @@ namespace Publisher {
             using var bus = RabbitHutch.CreateBus(AMQP);
             var count = 0;
             while (true) {
-                Console.WriteLine("Press a key to publish a message:");
-                Console.ReadKey();
+                // Console.WriteLine("Press a key to publish a message:");
+                // Console.ReadKey();
                 var body = $"Message {count} from {Environment.MachineName}";
                 bus.PubSub.Publish(new Message {
                     Body = body
                 });
                 Console.WriteLine($"Published: {body}");
                 count++;
+                Thread.Sleep(TimeSpan.FromSeconds(1));
             }
         }
     }

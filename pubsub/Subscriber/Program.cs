@@ -7,7 +7,9 @@ namespace Subscriber {
         const string AMQP = "amqps://lmsunmkw:fiOkDVyorwTj0Yt5M44pBDCgNvWzJ1C1@squid.rmq.cloudamqp.com/lmsunmkw";
         static void Main(string[] args) {
             using var bus = RabbitHutch.CreateBus(AMQP);
-            const string SUBSCRIPTION_ID = "EXAMPLE_SUBSCRIPTION";
+
+            string SUBSCRIPTION_ID = "dylan-in-london";
+
             bus.PubSub.Subscribe<Message>(SUBSCRIPTION_ID, HandleMessage);
             Console.WriteLine("Connected to bus. Listening for messages. Press Enter to quit.");
             Console.ReadLine();
