@@ -53,9 +53,9 @@ namespace Autobarn.Website.Controllers.api {
                 Year = dto.Year,
                 VehicleModel = vehicleModel
             };
-            // db.CreateVehicle(vehicle);
+            db.CreateVehicle(vehicle);
             await PublishNewVehicleMessage(vehicle);
-            return Accepted($"/api/vehicles/{vehicle.Registration}", vehicle.ToResource());
+            return Created($"/api/vehicles/{vehicle.Registration}", vehicle.ToResource());
         }
 
         private async Task PublishNewVehicleMessage(Vehicle vehicle) {
